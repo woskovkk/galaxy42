@@ -62,6 +62,17 @@ extern std::recursive_mutex g_dbg_mutex;
 #define DBGLOCK std::lock_guard<std::recursive_mutex> dbg_lock( g_dbg_mutex );
 #define DBGLVL(N) if (!(N>=g_dbg_level)) break
 
+#define DBG_ALL false
+
+#define DBGTYPE(N) if ((N == g_dbg_level) || DBG_ALL) break
+
+#define DBG_NET(X) do { DBGLOCK DBGTYPE(  1); _main_dbg("CORE: " << _my__FILE__ << ':' << __LINE__ << " " << X << ::std::endl);} while(0)
+#define DBG_NETWORK(X) do { DBGLOCK DBGTYPE(  2); _main_dbg("NETWORK: " << _my__FILE__ << ':' << __LINE__ << " " << X << ::std::endl);} while(0)
+#define DBG_ROUTNG(X) do { DBGLOCK DBGTYPE(  3); _main_dbg("ROUTING: " << _my__FILE__ << ':' << __LINE__ << " " << X << ::std::endl);} while(0)
+#define DBG_BITCOIN(X) do { DBGLOCK DBGTYPE(  4); _main_dbg("BITCOIN: " << _my__FILE__ << ':' << __LINE__ << " " << X << ::std::endl);} while(0)
+
+
+
 #define _main_dbg(X) { std::ostringstream _dbg_oss; _dbg_oss << X; write_to_console(_dbg_oss.str()); }
 
 #define _dbg5(X) do { } while(0)
@@ -72,6 +83,9 @@ extern std::recursive_mutex g_dbg_mutex;
 #define _info(X) do { DBGLOCK DBGLVL( 40); _main_dbg("\033[94minfo: " << _my__FILE__ << ':' << __LINE__ << " " << X  << "\033[0m" << ::std::endl);} while(0)
 #define _note(X) do { DBGLOCK DBGLVL( 50); _main_dbg("\033[36mnote: " << _my__FILE__ << ':' << __LINE__ << " " << X  << "\033[0m" << ::std::endl);} while(0)
 #define _clue(X) do { DBGLOCK DBGLVL( 50); _main_dbg("\n\033[96mclue: " << _my__FILE__ << ':' << __LINE__ << " " << X  << "\033[0m" << ::std::endl);} while(0)
+
+
+
 
 #define _fact_level(LVL_MAIN, LVL_EXTRA, X) \
 	do { DBGLOCK; \

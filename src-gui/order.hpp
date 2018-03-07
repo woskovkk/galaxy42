@@ -307,7 +307,7 @@ public:
     std::string get_str() const;
 
 private:
-
+    std::string m_error;
     int32_t m_satoshi;
 };
 
